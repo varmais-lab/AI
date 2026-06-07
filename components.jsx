@@ -68,7 +68,7 @@ function Wordmark({ size = 18, light = false }) {
         boxShadow: light ? '0 2px 10px rgba(0,0,0,.28)' : 'var(--sh-sm)',
         border: light ? '1px solid rgba(255,255,255,.5)' : '1px solid var(--line)'
       }}>
-        <img src="sumantv-logo.jpg" alt="SumanTV" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
+        <img src={(typeof window!=='undefined' && window.__resources && window.__resources.logo) || "sumantv-logo.jpg"} alt="SumanTV" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
       </div>
       <div className="col" style={{ lineHeight: 1, gap: 2 }}>
         <span className="display" style={{ fontSize: size, color: ink, letterSpacing: '.01em' }}>SumanTV</span>

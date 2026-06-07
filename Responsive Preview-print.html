@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SumanTV Story — Mobile & Web</title>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Mukta:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Mukta', system-ui, sans-serif;
+    background: #ECE6DD;
+    background-image: radial-gradient(circle at 20% 0%, #F6F0E6, #E7E0D5 60%);
+    color: #2A1E16; min-height: 100vh; padding: 40px 24px 64px;
+  }
+  .head { text-align: center; max-width: 720px; margin: 0 auto 38px; }
+  .kicker { font-size: 12px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #8A1A2A; }
+  h1 { font-family: 'Marcellus', serif; font-size: 34px; margin: 8px 0 10px; }
+  .sub { color: #7C6A5A; font-size: 15.5px; line-height: 1.5; }
+  .grid { display: flex; gap: 48px; justify-content: center; align-items: flex-start; flex-wrap: wrap; max-width: 1280px; margin: 0 auto; }
+  .col { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .label { display: flex; align-items: center; gap: 9px; }
+  .label b { font-family: 'Marcellus', serif; font-size: 20px; }
+  .label span { font-size: 13px; color: #7C6A5A; background: #fff; padding: 4px 11px; border-radius: 999px; box-shadow: 0 1px 3px rgba(74,12,22,.08); }
+
+  /* Browser window (web view) */
+  .browser { width: 700px; max-width: 92vw; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 30px 70px rgba(74,12,22,.22); background: #fff; }
+  .browser .bar { height: 44px; background: #EDE6DC; display: flex; align-items: center; gap: 8px; padding: 0 14px; border-bottom: 1px solid rgba(0,0,0,.06); }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .url { flex: 1; height: 26px; background: #fff; border-radius: 8px; display: flex; align-items: center; gap: 7px; padding: 0 12px; margin-left: 8px; font-size: 12.5px; color: #7C6A5A; border: 1px solid rgba(0,0,0,.05); }
+  .frame-wrap { position: relative; overflow: hidden; background: #251015; }
+
+  /* Phone (mobile view) */
+  .phone { width: 360px; padding: 12px; border-radius: 50px; background: #1a0d10;
+    box-shadow: 0 30px 70px rgba(74,12,22,.28), inset 0 0 0 2px #3a2226; position: relative; }
+  .phone::before { content: ""; position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+    width: 120px; height: 26px; background: #1a0d10; border-radius: 0 0 16px 16px; z-index: 3; }
+  .phone .screen { border-radius: 38px; overflow: hidden; background: #FDF8EF; }
+
+  iframe { border: 0; display: block; }
+  .note { text-align: center; color: #9C8A78; font-size: 13px; margin-top: 40px; }
+  @media (max-width: 920px) { .grid { gap: 36px; } }
+
+  /* ---------- Print ---------- */
+  @page { size: landscape; margin: 0.5cm; }
+  @media print {
+    *, *::before, *::after { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { min-height: 0; padding: 8px 0 0; }
+    .head { margin: 0 auto 20px; }
+    h1 { font-size: 28px; margin: 6px 0 8px; }
+    .sub { font-size: 14px; }
+    .grid { gap: 36px; flex-wrap: nowrap; align-items: flex-start; break-inside: avoid; }
+    .col { gap: 12px; break-inside: avoid; }
+    .browser { box-shadow: 0 8px 22px rgba(74,12,22,.20); max-width: none; }
+    .phone { box-shadow: 0 8px 22px rgba(74,12,22,.22), inset 0 0 0 2px #3a2226; }
+    .note { margin-top: 22px; }
+  }
+</style>
+</head>
+<body>
+  <div class="head">
+    <div class="kicker">SumanTV Story · Responsive</div>
+    <h1>One product, two views</h1>
+    <p class="sub">It’s a mobile-first web app. On a phone it runs full-screen; on desktop the same experience sits centred beside a festive marketing panel. Both are the live build, rendered at desktop and phone widths.</p>
+  </div>
+
+  <div class="grid">
+    <!-- WEB / DESKTOP -->
+    <div class="col">
+      <div class="label"><b>Web / Desktop</b><span>1280×800</span></div>
+      <div class="browser">
+        <div class="bar">
+          <div class="dot" style="background:#FF5F57"></div>
+          <div class="dot" style="background:#FEBC2E"></div>
+          <div class="dot" style="background:#28C840"></div>
+          <div class="url">🔒 sumantvstory.com</div>
+        </div>
+        <div class="frame-wrap" id="webwrap">
+          <iframe id="web" src="index.html"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOBILE -->
+    <div class="col">
+      <div class="label"><b>Mobile</b><span>390×844</span></div>
+      <div class="phone">
+        <div class="screen" id="phonewrap">
+          <iframe id="mob" src="index.html"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="note">Live build · the same <code>index.html</code> rendered at desktop and phone widths</p>
+
+  <script>
+    // Fixed, page-fitting sizes so both views sit side by side on one landscape page.
+    // Scales the iframe AND its surrounding chrome together so they stay proportional.
+    function place(wrapId, frameId, W, H, target) {
+      var wrap = document.getElementById(wrapId);
+      var f = document.getElementById(frameId);
+      var s = target / W;
+      f.style.width = W + 'px';
+      f.style.height = H + 'px';
+      f.style.transformOrigin = 'top left';
+      f.style.transform = 'scale(' + s + ')';
+      wrap.style.width = target + 'px';
+      wrap.style.height = (H * s) + 'px';
+    }
+    // Web: browser chrome width matches the framed page (410px)
+    place('webwrap', 'web', 1280, 800, 410);
+    document.querySelector('.browser').style.width = '410px';
+    // Phone: screen 205px wide; phone body = screen + 24px (12px padding each side)
+    place('phonewrap', 'mob', 390, 844, 205);
+    document.querySelector('.phone').style.width = (205 + 24) + 'px';
+
+    // Wait for fonts, both iframes, and the embedded React apps to render before printing.
+    (function () {
+      var printed = false;
+      function go() {
+        if (printed) return; printed = true;
+        setTimeout(function () { window.print(); }, 600);
+      }
+      var loaded = 0;
+      function frameReady() { if (++loaded >= 2) ready(); }
+      ['web', 'mob'].forEach(function (id) {
+        var f = document.getElementById(id);
+        if (f.contentDocument && f.contentDocument.readyState === 'complete') frameReady();
+        else f.addEventListener('load', frameReady);
+      });
+      function ready() {
+        var fonts = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+        // give the iframes' Babel/React time to transpile + mount
+        fonts.then(function () { setTimeout(go, 1800); });
+      }
+      // hard fallback
+      setTimeout(go, 6000);
+    })();
+  </script>
+</body>
+</html>
